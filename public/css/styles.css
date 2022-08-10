@@ -138,11 +138,11 @@ input::-webkit-inner-spin-button {
   align-items: center;
 }
 
-input[type=text]{
-  padding: 0 !important;
-  margin: 0 !important;
-  width: 150px !important;
-  border: none !important;
+.store input[type=text]{
+  padding: 0 ;
+  margin: 0 ;
+  width: 150px ;
+  border: none ;
 }
 
 .items-container{

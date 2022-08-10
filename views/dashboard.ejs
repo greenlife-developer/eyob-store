@@ -91,8 +91,8 @@
                             <input type="text" id="query" placeholder="Enter a keyword" onChange="handleChange()" />
                         </div>
                         <ul class="collapsible">
-                        <% if(items) { %>
-                            <% items.map(item=> { %>
+                        <% if(sales) { %>
+                            <% sales.map(item=> { %>
                             <li>
                                 <div class="collapsible-header">
                                     <span>
@@ -116,18 +116,6 @@
                                         <div class="">
                                             <label htmlFor="total">Total:</label>
                                             <span><%= item.total %></span>
-                                        </div>
-                                        <div class="btns">
-                                            <button class="btn btn-primary">
-                                                <a class="edit" href="/edit/<%=item._id %>">
-                                                    Edit
-                                                </a>
-                                            </button>
-                                            <button class="btn btn-secondary">
-                                                <a class="edit" href="/new-sales/<%=item._id %>">
-                                                    Sell
-                                                </a>
-                                            </button>
                                         </div>
                                     </div>
                                 </div>

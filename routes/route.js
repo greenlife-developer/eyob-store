@@ -71,7 +71,6 @@ mongoClient.connect(
         });
 
         router.get("/dashboard", (req, res) => {
-            console.log(req.body.query)
             database
                 .collection("storeItems")
                 .find()
@@ -79,49 +78,32 @@ mongoClient.connect(
                     createdAt: -1,
                 })
                 .toArray((err, items) => {
-                    if (req.session.user_id) {
-                        getUser(req.session.user_id, function (user) {
+                    database
+                    .collection("salesItems")
+                    .find()
+                    .sort({
+                    createdAt: -1,
+                    })
+                    .toArray((err, sales) => {
+                        if (req.session.user_id) {
+                            getUser(req.session.user_id, function (user) {
+                                res.render("dashboard", {
+                                    "isLogin": true,
+                                    "query": req.query,
+                                    "sales": sales,
+                                    "user": user,
+                                    "items": items,
+                                });
+                            });
+                        } else {
                             res.render("dashboard", {
-                                "isLogin": true,
+                                "isLogin": false,
                                 "query": req.query,
-                                "user": user,
+                                "sales": sales,
                                 "items": items,
                             });
-                        });
-                    } else {
-                        res.render("dashboard", {
-                            "isLogin": false,
-                            "query": req.query,
-                            "items": items,
-                        });
-                    }
-                });
-        });
-
-        router.get("/sales", (req, res) => {
-            database
-                .collection("salesItems")
-                .find()
-                .sort({
-                    createdAt: -1,
-                })
-                .toArray((err, items) => {
-                    if (req.session.user_id) {
-                        getUser(req.session.user_id, function (user) {
-                            res.json({
-                                isLogin: true,
-                                query: req.query,
-                                user: user,
-                                items: items,
-                            });
-                        });
-                    } else {
-                        res.json({
-                            isLogin: false,
-                            query: req.query,
-                            items: items,
-                        });
-                    }
+                        }
+                    })
                 });
         });
 
@@ -246,7 +228,7 @@ mongoClient.connect(
 
             if (req.session.user_id) {
                 getUser(req.session.user_id, (user) => {
-                    if (user.number === "08065109764" || user.number === "09065109764") {
+                    if (user.number === "08065109764") {
                         const myquery = { quantity: result.quantity };
                         const newvalues = { $set: { quantity: req.body.quantity, total: result.price * req.body.quantity } };
                         database
@@ -310,7 +292,7 @@ mongoClient.connect(
         });
 
         router.get("/logout", (req, res) => {
-            req.session.destroy();
+            req.session = null;
             res.redirect("/");
         });
     }

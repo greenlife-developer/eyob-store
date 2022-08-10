@@ -78,6 +78,12 @@ input:focus{
     outline: none;
 }
 
+.sign-up{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
 .signup-inputs input{
     width: 98%;
     border: none;
