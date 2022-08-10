@@ -1,0 +1,108 @@
+.registration{
+    position: relative;
+    /* left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #E1D7D7; */
+}
+
+.eversion-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 3rem;
+}
+
+.container-form{
+    background-color: white;
+    box-shadow: 4px 4px 4px pink;
+    z-index: 0;
+    border-radius: 5px;
+    display: flex;
+    padding: 15px 15px 45px 15px;
+}
+
+.add .signup-inputs{
+    width: 350px;
+}
+
+.form-name{
+    display: flex;
+    justify-content: center;
+    margin: 3rem 0 0 0;
+}
+
+.signup-inputs select{
+    width: 100% ;
+    border: none;
+    padding-left: 10px;
+    box-shadow: 3px 3px 3px 3px #ddd;
+    border-radius: 3px;
+    height: 35px;
+}
+
+.signup-inputs div{
+    width: 100%;
+}
+
+input[type=submit]{
+    margin-top: 20px;
+    padding: 0 !important;
+    box-shadow: none !important;
+    font-weight: bold;
+}
+
+.form-name div{
+    margin: 0 1%;
+}
+
+.form-name input{
+    width: 100%;
+    border: none;
+    padding: 10px;
+    box-shadow: 3px 3px 3px 3px #ddd;
+    border-radius: 3px;
+    height: 35px;
+}
+
+.registration label{
+    display: block;
+    text-align: left !important;
+    margin: .9rem 0 0 2%;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+input:focus{
+    outline: none;
+}
+
+.signup-inputs input{
+    width: 98%;
+    border: none;
+    padding: 10px;
+    box-shadow: 3px 3px 3px 3px #ddd;
+    border-radius: 3px;
+    height: 35px;
+}
+
+@media screen and (max-width: 430px)  {
+    .container-form{
+        width: 320px;
+        top: 70%;
+        flex-direction: column;
+    }
+
+    .forms-info{
+        display: none;
+    }
+
+    .add .signup-inputs{
+        width: 100%;
+    }
+
+    #login .container-form{
+        top: 50%;
+    }
+}
