@@ -186,7 +186,7 @@ mongoClient.connect(
             const productName = req.body.productName;
             const price = req.body.price;
             const quantity = req.body.quantity;
-
+            const currentTime = new Date().getTime();
             total = price * quantity;
 
             if (req.session.user_id) {
@@ -196,6 +196,7 @@ mongoClient.connect(
                             {
                                 productName: productName,
                                 price: price,
+                                createdAt: currentTime,
                                 quantity: quantity,
                                 total: total,
                             },
@@ -266,6 +267,7 @@ mongoClient.connect(
                     if (user.number === "08065109764" || user.number === "09065109764") {
                         const myquery = { quantity: result.quantity };
                         const total = req.body.price * req.body.quantity
+                        const currentTime = new Date().getTime();
                         const newQuantity = result.quantity - req.body.quantity
                         const newvalues = { $set: { quantity: newQuantity, total: result.price * newQuantity } };
                         database
@@ -276,6 +278,7 @@ mongoClient.connect(
                                     {
                                         productName: req.body.productName,
                                         price: req.body.price,
+                                        createdAt: currentTime,
                                         quantity: req.body.quantity,
                                         total: total,
                                     }
