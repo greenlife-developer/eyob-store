@@ -81,7 +81,7 @@ mongoClient.connect(
                 .toArray((err, items) => {
                     if (req.session.user_id) {
                         getUser(req.session.user_id, function (user) {
-                            res.render("dashboard",{
+                            res.render("dashboard", {
                                 "isLogin": true,
                                 "query": req.query,
                                 "user": user,
@@ -89,7 +89,7 @@ mongoClient.connect(
                             });
                         });
                     } else {
-                        res.render("dashboard",{
+                        res.render("dashboard", {
                             "isLogin": false,
                             "query": req.query,
                             "items": items,
@@ -126,7 +126,7 @@ mongoClient.connect(
         });
 
         router.get("/register", (req, res) => {
-            res.json({
+            res.render("register", {
                 query: req.query,
             });
         });
@@ -137,7 +137,7 @@ mongoClient.connect(
                     number: req.body.number,
                 },
                 (err, user) => {
-                    if (user === null ) {
+                    if (user === null) {
                         bcrypt.hash(req.body.password, 10, (err, hash) => {
                             database.collection("users").insertOne(
                                 {
@@ -149,12 +149,12 @@ mongoClient.connect(
                                 },
                                 (err, data) => {
                                     console.log(err);
-                                    res.redirect("/api/dashboard?message=registered");
+                                    res.redirect("/dashboard?message=registered");
                                 }
                             );
                         });
                     } else {
-                        res.redirect("/api/register?error=exists");
+                        res.redirect("/register?error=exists");
                     }
                 }
             );
@@ -162,7 +162,7 @@ mongoClient.connect(
 
         router.get("/login", (req, res) => {
             console.log(req.query);
-            res.json({
+            res.render("login", {
                 query: req.query,
             });
         });
@@ -177,7 +177,7 @@ mongoClient.connect(
                 },
                 (err, user) => {
                     if (user === null) {
-                        res.redirect("/api/login?error=not_exists");
+                        res.redirect("/login?error=not_exists");
                     } else {
                         bcrypt.compare(
                             password,
@@ -185,9 +185,9 @@ mongoClient.connect(
                             (err, isPasswordVerify) => {
                                 if (isPasswordVerify) {
                                     req.session.user_id = user._id;
-                                    res.redirect("/api/dashboard");
+                                    res.redirect("/dashboard");
                                 } else {
-                                    res.redirect("/api/login?error=wrong_password");
+                                    res.redirect("/login?error=wrong_password");
                                 }
                             }
                         );
@@ -218,7 +218,7 @@ mongoClient.connect(
                                 total: total,
                             },
                             (err, data) => {
-                                res.redirect("/api/dashboard?message=new-product");
+                                res.redirect("/dashboard?message=new-product");
                             }
                         );
                     } else {
@@ -234,8 +234,8 @@ mongoClient.connect(
             const result = await database
                 .collection("storeItems")
                 .findOne({ _id: ObjectId(req.params.id) });
-            res.render("edit",{
-                product: result, 
+            res.render("edit", {
+                product: result,
             });
         });
 
@@ -253,7 +253,7 @@ mongoClient.connect(
                             .collection("storeItems")
                             .updateOne(myquery, newvalues, function (err, data) {
                                 if (err) throw err;
-                                res.redirect("/api/dashboard?success=new_update")
+                                res.redirect("/dashboard?success=new_update")
                             });
                     } else {
                         res.send("<h1>Only the owner of the store can add products</h1>");
@@ -264,8 +264,13 @@ mongoClient.connect(
             }
         });
 
-        router.get("/new-sales/:id", (req, res) => {
-            res.render("sales")
+        router.get("/new-sales/:id", async (req, res) => {
+            const result = await database
+            .collection("storeItems")
+            .findOne({ _id: ObjectId(req.params.id) });
+        res.render("sales", {
+            sales: result,
+        });
         })
 
 
@@ -293,7 +298,7 @@ mongoClient.connect(
                                         total: total,
                                     }
                                 );
-                                res.redirect("/api/dashboard?success=new_update")
+                                res.redirect("/dashboard?success=new_update")
                             });
                     } else {
                         res.send("<h1>Only the owner of the store can add products</h1>");

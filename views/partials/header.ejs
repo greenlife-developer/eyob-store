@@ -1,35 +1,30 @@
 <div class="nav">
-    <div class="logo">
-      <a href="/">
-        <h4 class="logo">EYOB</h4>
-      </a>
+  <div class="logo">
+    <a href="/">
+      <h4 class="logo">EYOB</h4>
+    </a>
+  </div>
+  <div class="btn-group">
+    <div class="dropdown-toggle dropbtx" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
     </div>
-    <div class="btn-group">
-      <div
-        class="dropdown-toggle dropbtx"
-        data-bs-toggle="dropdown"
-        data-bs-display="static"
-        aria-expanded="false"
-      >
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-      <ul class="dropdown-menu dropdown-menu-end">
-        <div>
-          <div class="users">
-            <div class="user-login">
-              <div>
-                {isLogin && user.user ? (
-                  <div>
-                    <li>
-                      <a class="nav-links" href="/logout">
-                        <i class="fa-solid fa-arrow-right-from-bracket"></i>
-                        <h6>Logout</h6>
-                      </a>
-                    </li>
-                  </div>
-                ) : (
+    <ul class="dropdown-menu dropdown-menu-end">
+      <div>
+        <div class="users">
+          <div class="user-login">
+            <div>
+              <% if(typeof isLogin !=="undefined" && isLogin) { %>
+                <div>
+                  <li>
+                    <a class="nav-links" href="/logout">
+                      <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                      <h6>Logout</h6>
+                    </a>
+                  </li>
+                </div>
+                <% } else { %>
                   <div>
                     <li>
                       <a class="nav-links" href="/login">
@@ -44,17 +39,17 @@
                       </a>
                     </li>
                   </div>
-                )}
-                <li>
-                  <a class="nav-links" href="/dashboard">
-                    <i class="fa-solid fa-gauge"></i>
-                    <h6 class="btn-primary">Dashboard</h6>
-                  </a>
-                </li>
-              </div>
+                  <% } %>
+                  <li>
+                    <a class="nav-links" href="/dashboard">
+                      <i class="fa-solid fa-gauge"></i>
+                      <h6 class="btn-primary">Dashboard</h6>
+                    </a>
+                  </li>
             </div>
           </div>
         </div>
-      </ul>
-    </div>
+      </div>
+    </ul>
   </div>
+</div>

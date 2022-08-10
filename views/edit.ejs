@@ -18,38 +18,40 @@
               <div class="sign-up">
                 <h2>Update this document</h2>
                 <h6>
-                  Go to my <Link to="/dashboard">store</Link>
+                  Go to my <a href="/dashboard">store</a>
                 </h6>
               </div>
-              <form action={"/api/edit/" + actualLocation} method="post">
-                <div class="form">
-                  <div class="signup-inputs">
-                    <div>
-                      <label htmlFor="product-name">Product Name</label>
-                      <input
-                        type="text"
-                        defaultValue={item ? item.productName : ""}
-                        name="productName"
-                      />
-                    </div>
-                    <div>
-                      <label htmlFor="price">price</label>
-                      <input type="number" defaultValue={item ? item.price : ""} name="price" />
-                    </div>
-                    <div>
-                      <label htmlFor="quantity">Quantity</label>
-                      <input type="number" defaultValue={item ? item.quantity : ""} name="quantity" />
-                    </div>
-                    <div> 
-                      <input
-                        type="submit"
-                        value="Edit product"
-                        class="btn btn-primary"
-                      />
+              <% if(product) { %>
+                <form action="/edit/<%= product._id %>" method="post">
+                  <div class="form">
+                    <div class="signup-inputs">
+                      <div>
+                        <label htmlFor="product-name">Product Name</label>
+                        <input
+                          type="text"
+                          value="<%= product.productName %>"
+                          name="productName"
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor="price">price</label>
+                        <input type="number" value="<%= product.price %>" name="price" />
+                      </div>
+                      <div>
+                        <label htmlFor="quantity">Quantity</label>
+                        <input type="number" value="<%= product.quantity %>" name="quantity" />
+                      </div>
+                      <div> 
+                        <input
+                          type="submit"
+                          value="Edit product"
+                          class="btn btn-primary"
+                        />
+                      </div>
                     </div>
                   </div>
-                </div>
-              </form>
+                </form>
+              <% } %>
             </div>
           </div>
         </div>
