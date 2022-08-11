@@ -31,11 +31,12 @@
                           type="text"
                           value="<%= product.productName %>"
                           name="productName"
+                          readonly
                         />
                       </div>
                       <div>
                         <label htmlFor="price">price</label>
-                        <input type="number" value="<%= product.price %>" name="price" />
+                        <input type="number" value="<%= product.price %>" name="price" readonly/>
                       </div>
                       <div>
                         <label htmlFor="quantity">Quantity</label>

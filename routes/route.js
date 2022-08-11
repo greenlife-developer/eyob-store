@@ -196,9 +196,9 @@ mongoClient.connect(
                             {
                                 productName: productName,
                                 price: price,
-                                createdAt: currentTime,
                                 quantity: quantity,
                                 total: total,
+                                createdAt: currentTime,
                             },
                             (err, data) => {
                                 res.redirect("/dashboard?message=new-product");
@@ -223,11 +223,10 @@ mongoClient.connect(
         });
 
         router.post("/edit/:id", async (req, res) => {
-            const result = await database
+            if (req.session.user_id) {
+                const result = await database
                 .collection("storeItems")
                 .findOne({ _id: ObjectId(req.params.id) });
-
-            if (req.session.user_id) {
                 getUser(req.session.user_id, (user) => {
                     if (user.number === "08065109764") {
                         const myquery = { quantity: result.quantity };
@@ -258,11 +257,10 @@ mongoClient.connect(
 
 
         router.post("/new-sales/:id", async (req, res) => {
-            const result = await database
+            if (req.session.user_id) {
+                const result = await database
                 .collection("storeItems")
                 .findOne({ _id: ObjectId(req.params.id) });
-
-            if (req.session.user_id) {
                 getUser(req.session.user_id, (user) => {
                     if (user.number === "08065109764" || user.number === "09065109764") {
                         const myquery = { quantity: result.quantity };
@@ -278,9 +276,9 @@ mongoClient.connect(
                                     {
                                         productName: req.body.productName,
                                         price: req.body.price,
-                                        createdAt: currentTime,
                                         quantity: req.body.quantity,
                                         total: total,
+                                        createdAt: currentTime,
                                     }
                                 );
                                 res.redirect("/dashboard?success=new_update")

@@ -188,6 +188,22 @@ input::-webkit-inner-spin-button {
 }
 
 /* -----------------------dashboard------------------------------ */
+
+.tab a{
+  color: blue !important;
+  padding: 0;
+}
+
+.tab{
+  padding: 0;
+  margin: 0;
+}
+
+.tab a .active{
+  border-bottom: 2px solid #0D6efd !important;
+}
+
+
 .dashboard {
   margin-top: 1.2rem;
 }

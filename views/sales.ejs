@@ -29,11 +29,11 @@
                     <div class="signup-inputs">
                       <div>
                         <label htmlFor="product-name">Product Name</label>
-                        <input type="text" value="<%= sales.productName %>" name="productName" />
+                        <input type="text" value="<%= sales.productName %>" name="productName" readonly/>
                       </div>
                       <div>
                         <label htmlFor="price">price</label>
-                        <input type="number" name="price" />
+                        <input type="number" value="<%= sales.price %>" name="price" readonly/>
                       </div>
                       <div>
                         <label htmlFor="quantity">Quantity</label>
