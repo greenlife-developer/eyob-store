@@ -75,14 +75,14 @@ mongoClient.connect(
                 .collection("storeItems")
                 .find()
                 .sort({
-                    createdAt: -1,
+                     createdAt: -1 
                 })
                 .toArray((err, items) => {
                     database
                     .collection("salesItems")
                     .find()
                     .sort({
-                    createdAt: -1,
+                         createdAt: -1 
                     })
                     .toArray((err, sales) => {
                         if (req.session.user_id) {
@@ -191,7 +191,7 @@ mongoClient.connect(
 
             if (req.session.user_id) {
                 getUser(req.session.user_id, (user) => {
-                    if (user.number === "08065109764") {
+                    if (user.number === "08065109764" || user.number === "08033555515") {
                         database.collection("storeItems").insertOne(
                             {
                                 productName: productName,
@@ -205,11 +205,12 @@ mongoClient.connect(
                             }
                         );
                     } else {
-                        res.send("<h1>Only the owner of the store can add products</h1>");
+                        res.send("<h1>Only the owner of the store can add products <a href=/login >login as owner</a> </h1>");
                     }
                 });
             } else {
-                res.send("<h1>Only logged in users can perform this action</h1>");
+                res.redirect("/login?error=need_login")
+                // res.send("<h1>Only logged in users can perform this action</h1>");
             }
         });
 
@@ -228,7 +229,7 @@ mongoClient.connect(
                 .collection("storeItems")
                 .findOne({ _id: ObjectId(req.params.id) });
                 getUser(req.session.user_id, (user) => {
-                    if (user.number === "08065109764") {
+                    if (user.number === "08065109764" || user.number === "08033555515") {
                         const myquery = { quantity: result.quantity };
                         const newvalues = { $set: { quantity: req.body.quantity, total: result.price * req.body.quantity } };
                         database
@@ -238,11 +239,11 @@ mongoClient.connect(
                                 res.redirect("/dashboard?success=new_update")
                             });
                     } else {
-                        res.send("<h1>Only the owner of the store can add products</h1>");
+                        res.send("<h1>Only the owner of the store can edit products <a href=/login > Please login as owner</a> </h1>");
                     }
                 });
             } else {
-                res.send("<h1>Only logged in users can perform this action</h1>");
+                res.redirect("/login?error=need_login")
             }
         });
 
@@ -262,7 +263,7 @@ mongoClient.connect(
                 .collection("storeItems")
                 .findOne({ _id: ObjectId(req.params.id) });
                 getUser(req.session.user_id, (user) => {
-                    if (user.number === "08065109764" || user.number === "09065109764") {
+                    if (user.number === "08146671850" || user.number === "08033555515") {
                         const myquery = { quantity: result.quantity };
                         const total = req.body.price * req.body.quantity
                         const currentTime = new Date().getTime();
@@ -284,11 +285,11 @@ mongoClient.connect(
                                 res.redirect("/dashboard?success=new_update")
                             });
                     } else {
-                        res.send("<h1>Only the owner of the store can add products</h1>");
+                        res.send("<h1 class=btn-warning >You cannot sell this product <a href=/login >login as owner</a> </h1>");
                     }
                 });
             } else {
-                res.send("<h1>Only logged in users can perform this action</h1>");
+                res.redirect("/login?error=need_login")
             }
         });
 

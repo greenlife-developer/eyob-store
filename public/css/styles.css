@@ -189,6 +189,15 @@ input::-webkit-inner-spin-button {
 
 /* -----------------------dashboard------------------------------ */
 
+.btn{
+  text-transform: none;
+}
+
+.text-center{
+  display: flex;
+  justify-content: center;
+}
+
 .tab a{
   color: blue !important;
   padding: 0;
