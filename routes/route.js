@@ -75,35 +75,35 @@ mongoClient.connect(
                 .collection("storeItems")
                 .find()
                 .sort({
-                     createdAt: -1 
+                    productName: 1
                 })
                 .toArray((err, items) => {
                     database
-                    .collection("salesItems")
-                    .find()
-                    .sort({
-                         createdAt: -1 
-                    })
-                    .toArray((err, sales) => {
-                        if (req.session.user_id) {
-                            getUser(req.session.user_id, function (user) {
+                        .collection("salesItems")
+                        .find()
+                        .sort({
+                            createdAt: -1
+                        })
+                        .toArray((err, sales) => {
+                            if (req.session.user_id) {
+                                getUser(req.session.user_id, function (user) {
+                                    res.render("dashboard", {
+                                        "isLogin": true,
+                                        "query": req.query,
+                                        "sales": sales,
+                                        "user": user,
+                                        "items": items,
+                                    });
+                                });
+                            } else {
                                 res.render("dashboard", {
-                                    "isLogin": true,
+                                    "isLogin": false,
                                     "query": req.query,
                                     "sales": sales,
-                                    "user": user,
                                     "items": items,
                                 });
-                            });
-                        } else {
-                            res.render("dashboard", {
-                                "isLogin": false,
-                                "query": req.query,
-                                "sales": sales,
-                                "items": items,
-                            });
-                        }
-                    })
+                            }
+                        })
                 });
         });
 
@@ -190,24 +190,22 @@ mongoClient.connect(
             total = price * quantity;
 
             if (req.session.user_id) {
-                getUser(req.session.user_id, (user) => {
-                    if (user.number === "08065109764" || user.number === "08033555515") {
-                        database.collection("storeItems").insertOne(
-                            {
-                                productName: productName,
-                                price: price,
-                                quantity: quantity,
-                                total: total,
-                                createdAt: currentTime,
-                            },
-                            (err, data) => {
-                                res.redirect("/dashboard?message=new-product");
-                            }
-                        );
-                    } else {
-                        res.send("<h1>Only the owner of the store can add products <a href=/login >login as owner</a> </h1>");
-                    }
-                });
+                if (user.number === "08065109764" || user.number === "08033555515") {
+                    database.collection("storeItems").insertOne(
+                        {
+                            productName: productName,
+                            price: price,
+                            quantity: quantity,
+                            total: total,
+                            createdAt: currentTime,
+                        },
+                        (err, data) => {
+                            res.redirect("/dashboard?message=new-product");
+                        }
+                    );
+                } else {
+                    res.send("<h1>Only the owner of the store can add products <a href=/login >login as owner</a> </h1>");
+                }
             } else {
                 res.redirect("/login?error=need_login")
                 // res.send("<h1>Only logged in users can perform this action</h1>");
@@ -226,22 +224,20 @@ mongoClient.connect(
         router.post("/edit/:id", async (req, res) => {
             if (req.session.user_id) {
                 const result = await database
-                .collection("storeItems")
-                .findOne({ _id: ObjectId(req.params.id) });
-                getUser(req.session.user_id, (user) => {
-                    if (user.number === "08065109764" || user.number === "08033555515") {
-                        const myquery = { quantity: result.quantity };
-                        const newvalues = { $set: { quantity: req.body.quantity, total: result.price * req.body.quantity } };
-                        database
-                            .collection("storeItems")
-                            .updateOne(myquery, newvalues, function (err, data) {
-                                if (err) throw err;
-                                res.redirect("/dashboard?success=new_update")
-                            });
-                    } else {
-                        res.send("<h1>Only the owner of the store can edit products <a href=/login > Please login as owner</a> </h1>");
-                    }
-                });
+                    .collection("storeItems")
+                    .findOne({ _id: ObjectId(req.params.id) });
+                if (user.number === "08065109764" || user.number === "08033555515") {
+                    const myquery = { quantity: result.quantity };
+                    const newvalues = { $set: { quantity: req.body.quantity, total: result.price * req.body.quantity } };
+                    database
+                        .collection("storeItems")
+                        .updateOne(myquery, newvalues, function (err, data) {
+                            if (err) throw err;
+                            res.redirect("/dashboard?success=new_update")
+                        });
+                } else {
+                    res.send("<h1>Only the owner of the store can edit products <a href=/login > Please login as owner</a> </h1>");
+                }
             } else {
                 res.redirect("/login?error=need_login")
             }
@@ -249,19 +245,19 @@ mongoClient.connect(
 
         router.get("/new-sales/:id", async (req, res) => {
             const result = await database
-            .collection("storeItems")
-            .findOne({ _id: ObjectId(req.params.id) });
-        res.render("sales", {
-            sales: result,
-        });
+                .collection("storeItems")
+                .findOne({ _id: ObjectId(req.params.id) });
+            res.render("sales", {
+                sales: result,
+            });
         })
 
 
         router.post("/new-sales/:id", async (req, res) => {
             if (req.session.user_id) {
                 const result = await database
-                .collection("storeItems")
-                .findOne({ _id: ObjectId(req.params.id) });
+                    .collection("storeItems")
+                    .findOne({ _id: ObjectId(req.params.id) });
                 getUser(req.session.user_id, (user) => {
                     if (user.number === "08146671850" || user.number === "08033555515") {
                         const myquery = { quantity: result.quantity };
