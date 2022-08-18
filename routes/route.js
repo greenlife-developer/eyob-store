@@ -190,22 +190,24 @@ mongoClient.connect(
             total = price * quantity;
 
             if (req.session.user_id) {
-                if (user.number === "08065109764" || user.number === "08033555515") {
-                    database.collection("storeItems").insertOne(
-                        {
-                            productName: productName,
-                            price: price,
-                            quantity: quantity,
-                            total: total,
-                            createdAt: currentTime,
-                        },
-                        (err, data) => {
-                            res.redirect("/dashboard?message=new-product");
-                        }
-                    );
-                } else {
-                    res.send("<h1>Only the owner of the store can add products <a href=/login >login as owner</a> </h1>");
-                }
+                getUser(req.session.user_id, (user) => {
+                    if (user.number === "08065109764" || user.number === "08033555515") {
+                        database.collection("storeItems").insertOne(
+                            {
+                                productName: productName,
+                                price: price,
+                                quantity: quantity,
+                                total: total,
+                                createdAt: currentTime,
+                            },
+                            (err, data) => {
+                                res.redirect("/dashboard?message=new-product");
+                            }
+                        );
+                    } else {
+                        res.send("<h1>Only the owner of the store can add products <a href=/login >login as owner</a> </h1>");
+                    }
+                });
             } else {
                 res.redirect("/login?error=need_login")
                 // res.send("<h1>Only logged in users can perform this action</h1>");
@@ -226,18 +228,21 @@ mongoClient.connect(
                 const result = await database
                     .collection("storeItems")
                     .findOne({ _id: ObjectId(req.params.id) });
-                if (user.number === "08065109764" || user.number === "08033555515") {
-                    const myquery = { quantity: result.quantity };
-                    const newvalues = { $set: { quantity: req.body.quantity, total: result.price * req.body.quantity } };
-                    database
-                        .collection("storeItems")
-                        .updateOne(myquery, newvalues, function (err, data) {
-                            if (err) throw err;
-                            res.redirect("/dashboard?success=new_update")
-                        });
-                } else {
-                    res.send("<h1>Only the owner of the store can edit products <a href=/login > Please login as owner</a> </h1>");
-                }
+                getUser(req.session.user_id, (user) => {
+                    if (user.number === "08065109764" || user.number === "08033555515") {
+                        const myquery = { quantity: result.quantity };
+                        const newvalues = { $set: { quantity: req.body.quantity, total: result.price * req.body.quantity } };
+                        // db.collection.update({_id: req.body.id},{$set:{status: 1}}, function(err,doc){})
+                        database
+                            .collection("storeItems")
+                            .update({ _id: ObjectId(req.params.id) }, newvalues, function (err, data) {
+                                if (err) throw err;
+                                res.redirect("/dashboard?success=new_update")
+                            });
+                    } else {
+                        res.send("<h1>Only the owner of the store can edit products <a href=/login > Please login as owner</a> </h1>");
+                    }
+                })
             } else {
                 res.redirect("/login?error=need_login")
             }
@@ -259,7 +264,7 @@ mongoClient.connect(
                     .collection("storeItems")
                     .findOne({ _id: ObjectId(req.params.id) });
                 getUser(req.session.user_id, (user) => {
-                    if (user.number === "08146671850" || user.number === "08033555515") {
+                    if (user.number === "08146671850" || user.number === "08033555515" || user.number === "08065109764") {
                         const myquery = { quantity: result.quantity };
                         const total = req.body.price * req.body.quantity
                         const currentTime = new Date().getTime();
@@ -267,7 +272,7 @@ mongoClient.connect(
                         const newvalues = { $set: { quantity: newQuantity, total: result.price * newQuantity } };
                         database
                             .collection("storeItems")
-                            .updateOne(myquery, newvalues, function (err, data) {
+                            .update({ _id: ObjectId(req.params.id) }, newvalues, function (err, data) {
                                 if (err) throw err;
                                 database.collection("salesItems").insertOne(
                                     {
