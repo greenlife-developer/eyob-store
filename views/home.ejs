@@ -41,12 +41,16 @@
                                     <h6>Seedlings</h6>
                                 </div>
                                 <% let sum = 0; %>
+                                <% let totalGoods = 0; %>
                                 <% for (let i = 0; i < store.length; i++) { %>
                                     <% sum += store[i].total; %>
+                                    <% totalGoods += parseInt(store[i].quantity); %>
                                   <% } %>
+
+                                  <% if(user.number === "totalGoods") %>
                                 <div class="item shops-worth">
-                                    <h6>Shop Goods and worth</h6>
-                                    <h6>Total Goods: <%= store.length %></h6>
+                                    <h6>Shop Goods And Worth</h6>
+                                    <h6>Total Goods: <%= totalGoods %></h6>
                                     <h6>Worth: <%= sum.toLocaleString('en-NG', { style: 'currency', currency: 'NGN' }) %></h6>
                                 </div>
                                 <div class="item last-child">
