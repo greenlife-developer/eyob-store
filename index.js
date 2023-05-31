@@ -36,7 +36,7 @@ app.use(
 app.use('/', require("./routes/route"));
 
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5050;
 
 app.listen(PORT, function () {
   console.log("Server has started on port " + PORT + " ...");

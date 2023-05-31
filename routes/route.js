@@ -51,22 +51,29 @@ mongoClient.connect(
                     createdAt: -1,
                 })
                 .toArray((err, users) => {
-                    if (req.session.user_id) {
-                        getUser(req.session.user_id, function (user) {
+                    database.collection("storeItems").find().sort({
+                        createdAt: -1
+                    })
+                    .toArray((err, storeItems) => {
+                        if (req.session.user_id) {
+                            getUser(req.session.user_id, function (user) {
+                                res.render("home", {
+                                    isLogin: true,
+                                    query: req.query,
+                                    user: user,
+                                    store: storeItems,
+                                    users: users,
+                                });
+                            });
+                        } else {
                             res.render("home", {
-                                isLogin: true,
+                                isLogin: false,
                                 query: req.query,
-                                user: user,
+                                store: storeItems,
                                 users: users,
                             });
-                        });
-                    } else {
-                        res.render("home", {
-                            isLogin: false,
-                            query: req.query,
-                            users: users,
-                        });
-                    }
+                        }
+                    })
                 });
         });
 
