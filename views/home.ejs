@@ -2,68 +2,76 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/public/fontawesome/css/all.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="/public/css/styles.css">
-    <title>EYOB</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/public/fontawesome/css/all.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="/public/css/styles.css">
+  <title>EYOB</title>
 </head>
 
 <body>
-        <nav class="navigation">
-            <div class="nav-content">
-                <%- include("./partials/header") %>
-                <div class="store-home">
-                    <div class="container home">
-                        <div class="heading">
-                            <div>
-                                <h1>Welcome to EYOB</h1>
-                                <h6>Agrochemicals and farm tools</h6>
-                            </div>
-                        </div>
-                        <div class="items-container">
-                            <div class="items">
-                                <div class="item">
-                                    <h6>Herbicides</h6>
-                                </div>
-                                <div class="item">
-                                    <h6>Insecticides</h6>
-                                </div>
-                                <div class="item">
-                                    <h6>Pesticides</h6>
-                                </div>
-                                <div class="item">
-                                    <h6>Fungicides</h6>
-                                </div>
-                                <div class="item">
-                                    <h6>Seedlings</h6>
-                                </div>
-                                <% let sum = 0; %>
-                                <% let totalGoods = 0; %>
-                                <% for (let i = 0; i < store.length; i++) { %>
-                                    <% sum += store[i].total; %>
-                                    <% totalGoods += parseInt(store[i].quantity); %>
-                                  <% } %>
-
-                                <div class="item shops-worth">
-                                    <h6>Shop Goods And Worth</h6>
-                                    <h6>Total Goods: <%= totalGoods %></h6>
-                                    <h6>Worth: <%= sum.toLocaleString('en-NG', { style: 'currency', currency: 'NGN' }) %></h6>
-                                </div>
-                                <div class="item last-child">
-                                    <a href="/dashboard">
-                                    <h6>go to store</h6>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+  <nav class="navigation">
+    <div class="nav-content">
+      <%- include("./partials/header") %>
+        <div class="store-home">
+          <div class="container home">
+            <div class="heading">
+              <div>
+                <h1>Welcome to EYOB</h1>
+                <h6>Agrochemicals and farm tools</h6>
+              </div>
             </div>
-        </nav>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+            <div class="items-container">
+              <div class="items">
+                <div class="item">
+                  <h6>Herbicides</h6>
+                </div>
+                <div class="item">
+                  <h6>Insecticides</h6>
+                </div>
+                <div class="item">
+                  <h6>Pesticides</h6>
+                </div>
+                <div class="item">
+                  <h6>Fungicides</h6>
+                </div>
+                <div class="item">
+                  <h6>Seedlings</h6>
+                </div>
+                <% let sum=0; %>
+                  <% let totalGoods=0; %>
+                    <% for (let i=0; i < store.length; i++) { %>
+                      <% sum +=store[i].total; %>
+                        <% totalGoods +=parseInt(store[i].quantity); %>
+                          <% } %>
+                            <% console.log(user) %>
+                              <% if( user !==undefined){ %>
+                                <% if(user.email==="boyeosaks@gmail.com" || user.email==="yemijoshua87@gmail.com" ){ %>
+                                  <div class="item shops-worth">
+                                    <h6>Shop Goods And Worth</h6>
+                                    <h6>Total Goods: <%= totalGoods %>
+                                    </h6>
+                                    <h6>Worth: <%= sum.toLocaleString('en-NG', { style: 'currency' , currency: 'NGN' })
+                                        %>
+                                    </h6>
+                                  </div>
+                                  <% } %>
+                                    <% } %>
+
+                                      <div class="item last-child">
+                                        <a href="/dashboard">
+                                          <h6>go to store</h6>
+                                        </a>
+                                      </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+  </nav>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
@@ -109,4 +117,3 @@
       a } a
     });
   </script> -->
-  

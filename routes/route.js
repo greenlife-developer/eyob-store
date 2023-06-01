@@ -69,6 +69,7 @@ mongoClient.connect(
                             res.render("home", {
                                 isLogin: false,
                                 query: req.query,
+                                user: undefined,
                                 store: storeItems,
                                 users: users,
                             });
