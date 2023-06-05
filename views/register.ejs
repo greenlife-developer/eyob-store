@@ -26,6 +26,11 @@
                         </div>
                         <form action="/register" method="post">
                             <div class="form">
+                                <% if(query.error === "exists") { %>
+                                    <div class="error">
+                                      <p>User with the phone number exists</p>
+                                    </div>
+                                  <% } %>
                                 <div class="form-name">
                                     <div>
                                         <label htmlFor="f-name">First Name</label>

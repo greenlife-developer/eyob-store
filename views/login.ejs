@@ -26,6 +26,21 @@
               </div>
               <form action="/login" method="post">
                 <div class="form">
+                  <% if(query.error === "wrong_password") { %>
+                    <div class="error">
+                      <p>Wrong password</p>
+                    </div>
+                  <% } %>
+                  <% if(query.error === "not_exists") { %>
+                    <div class="error">
+                      <p>User with the email does not exist</p>
+                    </div>
+                  <% } %>
+                  <% if(query.error === "need_login") { %>
+                    <div class="error">
+                      <p>Please login for products update</p>
+                    </div>
+                  <% } %>
                   <div class="signup-inputs">
                     <div>
                       <label htmlFor="Email">Email</label>

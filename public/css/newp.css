@@ -34,6 +34,15 @@
     margin: 3rem 0 0 0;
 }
 
+.form .error{
+    background-color: red;
+    margin: 1rem 0;
+    padding: 6px 0;
+    display: flex;
+    justify-content: center;
+    color: #fff;
+}
+
 .signup-inputs select{
     width: 100% ;
     border: none;

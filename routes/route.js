@@ -23,7 +23,6 @@ function getUser(userId, callBack) {
         },
         function (error, result) {
             if (error) {
-                console.log(error);
                 return;
             }
             if (callBack !== null) {
@@ -38,7 +37,6 @@ mongoClient.connect(
     { useUnifiedTopology: true },
     function (error, client) {
         if (error) {
-            console.log(error);
             return;
         }
         database = client.db("eyob");
@@ -138,7 +136,6 @@ mongoClient.connect(
                                     password: hash,
                                 },
                                 (err, data) => {
-                                    console.log(err);
                                     res.redirect("/dashboard?message=registered");
                                 }
                             );
@@ -151,7 +148,6 @@ mongoClient.connect(
         });
 
         router.get("/login", (req, res) => {
-            console.log(req.query);
             res.render("login", {
                 query: req.query,
             });
